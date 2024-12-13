@@ -8,7 +8,8 @@ const app = express();
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({ origin: process.env.FRONTEND_URL }));
+
 
 // Connect to MongoDB
 mongoose.set('strictQuery', false)
@@ -30,6 +31,7 @@ app.use('/api', vehicleRoutes);
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
     connectDB();
+    console.log(`Server running on port ${PORT}`);
+    
 });
