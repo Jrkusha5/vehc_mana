@@ -2,27 +2,27 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import '.'
 const VehicleTable = () => {
     const [vehicles, setVehicles] = useState([]);
     const [newVehicle, setNewVehicle] = useState({ name: '', status: '' });
 
     const fetchVehicles = async () => {
         try {
-            const res = await axios.get('http://localhost:4000/api/vehicles');
+            const res = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/vehicles`);
             setVehicles(res.data);
         } catch (error) {
             toast.error("Error fetching vehicles!");
         }
     };
-
+    
     const addVehicle = async () => {
         try {
             if (!newVehicle.name || !newVehicle.status) {
                 toast.error("Both fields are required!");
                 return;
             }
-            await axios.post('http://localhost:4000/api/vehicles', newVehicle);
+            await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/vehicles`, newVehicle);
             fetchVehicles();
             setNewVehicle({ name: '', status: '' });
             toast.success("Vehicle added!");
@@ -30,16 +30,17 @@ const VehicleTable = () => {
             toast.error("Error adding vehicle!");
         }
     };
-
+    
     const updateVehicleStatus = async (id, status) => {
         try {
-            await axios.put(`http://localhost:4000/api/vehicles/${id}`, { status });
+            await axios.put(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/vehicles/${id}`, { status });
             fetchVehicles();
             toast.success("Status updated!");
         } catch (error) {
             toast.error("Error updating status!");
         }
     };
+    
 
     useEffect(() => {
         fetchVehicles();
