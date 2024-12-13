@@ -28,6 +28,10 @@ const connectDB =async()=>{
 // Routes
 app.use('/api', vehicleRoutes);
 
+app.get('/', (req, res) => {
+    res.json({ message: "Vehicles fetched successfully!" });
+});
+
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
